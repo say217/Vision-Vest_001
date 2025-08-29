@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <title>Apexora</title>
+  <link rel="icon" href="https://tse1.mm.bing.net/th/id/OIP.55_1bcw1pR_H21Lgc2qpAwAAAA?rs=1&pid=ImgDetMain" type="image/png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Poppins', sans-serif;
+      color: #f0f0f5;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+      background: radial-gradient(circle, rgba(15,15,30,0.95) 0%, rgba(0,0,0,1) 100%);
+      background-image:
+        radial-gradient(rgba(255,255,255,0.08) 1px, transparent 1px),
+        radial-gradient(rgba(255,255,255,0.07) 1px, transparent 1px),
+        radial-gradient(circle at center, #050505, #000);
+      background-size: 22px 22px, 44px 44px, cover;
+      background-blend-mode: overlay;
+      animation: fadeIn 1s ease-out forwards;
+    }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: -1;
+      background: radial-gradient(circle at 50% 25%,
+        rgba(186, 85, 211, 0.25) 0%,
+        rgba(148, 0, 211, 0.2) 15%,
+        rgba(72, 61, 139, 0.15) 25%,
+        rgba(0, 0, 0, 0) 40%);
+      filter: blur(25px);
+      mix-blend-mode: screen;
+    }
+
+    .glassy-header {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 70px;
+      background: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(25px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8);
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      padding: 0 30px;
+    }
+
+    .back-button {
+      font-family: 'Poppins', sans-serif;
+      font-weight: 700;
+      font-size: 1.3rem;
+      color: #fff;
+      text-decoration: none;
+      cursor: pointer;
+      transition: color 0.3s ease, transform 0.2s ease;
+    }
+
+    .back-button:hover {
+      color: #b19cd9;
+      transform: scale(1.05);
+    }
+
+    .dashboard-container {
+      margin-top: 90px;
+      display: flex;
+      justify-content: space-between;
+      width: 95%;
+      max-width: 1700px;
+      gap: 35px;
+      min-height: calc(100vh - 170px);
+    }
+
+    .left-section {
+      flex: 2;
+      display: flex;
+      flex-direction: column;
+      gap: 25px;
+      max-height: calc(100vh - 110px);
+      padding-right: 15px;
+      overflow-y: hidden;
+    }
+
+    .left-section::-webkit-scrollbar {
+      display: none;
+    }
+
+    .right-section {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 45px;
+      position: sticky;
+      top: 90px;
+      height: fit-content;
+    }
+
+    .input-container {
+  padding: 25px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.01); /* more transparent */
+  backdrop-filter: blur(30px);
+  border: 1px solid rgba(255, 255, 255, 0.1); /* slightly lighter border */
+  box-shadow: 0 15px 60px rgba(0, 0, 0, 0.9), inset 0 0 25px rgba(255, 255, 255, 0.07);
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+  min-height: 380px;
+}
+
+.output-section {
+  padding: 25px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.01); /* more transparent */
+  backdrop-filter: blur(30px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 15px 60px rgba(0, 0, 0, 0.9), inset 0 0 25px rgba(255, 255, 255, 0.07);
+  width: 100%;
+  position: relative;
+  overflow-y: auto;
+  max-height: calc(100vh - 110px);
+  min-height: 465px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+
+    .output-section::-webkit-scrollbar {
+      display: none;
+    }
+
+    .input-container::before, .output-section::before {
+      content: '';
+      position: absolute;
+      top: -50%; left: -50%;
+      width: 200%; height: 200%;
+      background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 60%);
+      pointer-events: none;
+    }
+
+    .watermark {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-family: 'Poppins', sans-serif;
+      font-size: 4.5rem;
+      color: rgba(255, 255, 255, 0.1);
+      pointer-events: none;
+      user-select: none;
+    }
+
+    .input-container h1 {
+      font-size: 40px;
+      font-weight: 900;
+      font-family: 'Montserrat', sans-serif;
+      background: linear-gradient(45deg, #ffffff 50%, #790db7ff 50%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-align: center;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    .input-container p {
+      font-size: 0.95rem;
+      color: #ccc;
+      text-align: center;
+      margin: 12px 0 25px;
+    }
+
+    .search-container {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 12px;
+    }
+
+    .search-container input[type="text"] {
+      width: 100%;
+      padding: 14px;
+      font-size: 1rem;
+      background: rgba(255,255,255,0.05);
+      color: #fff;
+      border: 1px solid rgba(255,255,255,0.3);
+      border-radius: 25px;
+      box-shadow: inset 0 3px 6px rgba(0,0,0,0.4);
+    }
+
+    button {
+      font-size: 1.1em;
+      padding: 0.5em 1.4em;
+      border-radius: 50px;
+      border: none;
+      background-color: #000;
+      color: #fff;
+      cursor: pointer;
+      box-shadow: 2px 2px 4px #00000090;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 700;
+      transition: transform 0.2s ease;
+    }
+
+    button:hover {
+      transform: scale(1.06);
+    }
+
+    .button-container {
+      position: relative;
+      display: inline-block;
+      padding: 3px;
+      background: linear-gradient(45deg, #03a9f4, #b19cd9);
+      border-radius: 50px;
+      transition: all 0.3s ease;
+    }
+
+    .button-container::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      margin: auto;
+      border-radius: 50px;
+      z-index: -10;
+      filter: blur(0);
+      transition: filter 0.3s ease;
+    }
+
+    .button-container:hover::before {
+      background: linear-gradient(45deg, #03a9f4, #b19cd9);
+      filter: blur(0.5em);
+    }
+
+    .button-container:active::before {
+      filter: blur(0.15em);
+    }
+
+   
+
+    .output-section h2 {
+      font-size: 2.2rem;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(45deg, #ffffff 50%, #b19cd9 50%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-align: center;
+      margin-bottom: 25px;
+      margin-top: 25px;
+    }
+
+    .output-section h3 {
+      font-size: 1.5rem;
+      color: #b19cd9;
+      margin: 20px 0;
+    }
+
+    .error-message {
+      display: none;
+      background: rgba(255, 0, 0, 0.25);
+      border: 1px solid rgba(255, 0, 0, 0.6);
+      color: #ff8080;
+      padding: 14px;
+      border-radius: 10px;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .plot-img {
+      max-width: 100%;
+      border-radius: 10px;
+      margin: 12px 0;
+      cursor: pointer;
+      border: 1px solid rgba(255,255,255,0.15);
+    }
+
+    #imageModal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.95);
+      z-index: 2000;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+    }
+
+    #imageModal img {
+      max-width: 92%;
+      max-height: 82vh;
+      border-radius: 10px;
+      box-shadow: 0 0 30px rgba(177, 156, 217, 0.7);
+    }
+
+    #closeBtn {
+      position: absolute;
+      top: 25px; right: 35px;
+      font-size: 2.2rem;
+      color: white;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    #closeBtn:hover {
+      color: #ff6666;
+    }
+
+    .highlight {
+      color: #b19cd9;
+      font-weight: 700;
+      background: rgba(177, 156, 217, 0.15);
+      padding: 0 5px;
+      border-radius: 5px;
+    }
+
+    .circle-container {
+      position: relative;
+      width: 120px;
+      height: 120px;
+      display: inline-block;
+      vertical-align: middle;
+      margin-right: 10px;
+    }
+
+    .circle-container svg {
+      transform: rotate(-90deg);
+    }
+
+   .circle-bg {
+  fill: none;
+  stroke: #222;
+  stroke-width: 3; /* thicker background ring */
+}
+
+.circle-progress {
+  fill: none;
+  stroke: #03a9f4;
+  stroke-width: 3; /* thicker progress ring */
+  stroke-linecap: round;
+  stroke-dasharray: 314;
+  stroke-dashoffset: 314;
+}
+
+
+    .score {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: #fff;
+      font-weight: 500;
+      font-size: 28px;
+      font-family: 'Poppins', sans-serif;
+    }
+
+#metrics_content {
+    display: flex;
+    gap: 40px;  /* space between Accuracy and RMSE circles */
+    flex-wrap: wrap;
+}
+
+    #bgCanvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1000;
+      pointer-events: none;
+    }
+  </style>
+</head>
+<body>
+  <header class="glassy-header">
+    <a class="back-button" href="#" onclick="history.back(); return false;">< Back</a>
+  </header>
+  <canvas id="bgCanvas"></canvas>
+
+  <div class="dashboard-container">
+    <div class="left-section">
+      <div class="output-section">
+        <div class="watermark">APEXORA</div>
+        <div id="results" style="display:none;">
+          <div id="error" class="error-message"></div>
+          <div id="performance_metrics" style="display:none;">
+            <h3>Model Performance Metrics</h3>
+            <div id="metrics_content"></div>
+          </div>
+          <div id="plots" style="display:none; margin-top:20px;">
+           <div></div>
+            <div id="feature_plots"></div>
+            <div id="test_plot"></div>
+            <div id="forecast_plot"></div>
+          </div>
+          <div id="forecast_section" style="display:none;">
+            <h3>Future Price Forecast</h3>
+            <div id="forecast_content"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="right-section">
+  <div class="input-container">
+  <div style="display: flex; align-items: center; justify-content: center; gap: 15px;">
+    <h1 style="font-size: 40px; font-weight: 900; font-family: 'Montserrat', sans-serif;
+               background: linear-gradient(45deg, #ffffff 50%, #7c0db7ff 50%);
+               -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+               text-align: center; letter-spacing: 1px; text-transform: uppercase;">
+      APEXORA
+    </h1>
+    <div style="width: 60px; height: 60px; border-radius: 50%; overflow: hidden;
+                background: #b19cd9; display: flex; align-items: center; justify-content: center;">
+      <img src="https://tse1.mm.bing.net/th/id/OIP.55_1bcw1pR_H21Lgc2qpAwAAAA?rs=1&pid=ImgDetMain" alt="Profile Image" 
+           style="width: 100%; height: 100%; object-fit: cover;">
+    </div>
+  </div>
+
+  <p>
+    Enter a stock ticker symbol (e.g., AAPL, TSLA, MSFT) to predict future 
+    <span class="highlight">prices</span> using our advanced 
+    <span class="highlight">Conv1D + BiGRU + Attention</span> model. 
+    Get accurate forecasts and interactive visualizations to make informed decisions. It takes 5 to 6 minutes please wait.
+  </p>
+  <!-- rest of your search-container and loader here -->
+
+
+ <div class="search-container">
+  <input type="text" id="ticker" value="AAPL" placeholder="Enter Ticker Symbol">
+  <div class="button-container">
+    <button id="predictBtn" onclick="predict()">Predict <span>→</span></button>
+  </div>
+</div>
+
+<div id="loader">
+  <div></div>
+  <p id="statusText"></p>
+  <p id="timer">0s</p>
+</div>
+
+<style>
+/* Loader container */
+#loader {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  margin-top: 20px;
+}
+
+/* Spinner */
+#loader div {
+  width: 25px;
+  height: 25px;
+  border: 3px solid #ccc;       /* light neutral border */
+  border-top: 3px solid #60bae7ff; /* subtle colored top */
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+/* Spinner animation */
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Loader text */
+#loader p {
+  font-size: 0.9rem;
+  color: #b19cd9;
+  margin: 0;
+  font-family: sans-serif;
+  letter-spacing: 0.5px;
+}
+
+</style>
+
+<script>
+function predict() {
+  const loader = document.getElementById('loader');
+  const statusText = document.getElementById('statusText');
+  const timer = document.getElementById('timer');
+  const btn = document.getElementById('predictBtn');
+
+  const statusSteps = ['Data Collecting...', 'Processing...', 'Training...'];
+  let currentStep = 0;
+  let seconds = 0;
+
+  // Disable button to prevent multiple clicks
+  btn.disabled = true;
+
+  // Show loader
+  loader.style.display = 'flex';
+  statusText.innerText = statusSteps[0];
+  timer.innerText = `0s`;
+
+  const interval = setInterval(() => {
+    seconds++;
+    timer.innerText = `Time: ${seconds}s`;
+
+    if (seconds % 5 === 0) {
+      currentStep++;
+      if (currentStep >= statusSteps.length) {
+        clearInterval(interval);
+        statusText.innerText = 'Completed!';
+        timer.innerText = `Total Time: ${seconds}s`;
+        setTimeout(() => {
+          loader.style.display = 'none';
+          btn.disabled = false;
+        }, 1000);
+      } else {
+        // Fade effect
+        statusText.style.opacity = 0;
+        setTimeout(() => {
+          statusText.innerText = statusSteps[currentStep];
+          statusText.style.opacity = 1;
+        }, 200);
+      }
+    }
+  }, 1000);
+
+  // Optional: call backend
+  // const ticker = document.getElementById('ticker').value;
+  // fetchPrediction(ticker).then(() => clearInterval(interval));
+}
+</script>
+
+
+      </div>
+    </div>
+  </div>
+
+  <div id="imageModal">
+    <span id="closeBtn">&times;</span>
+    <img id="modalImage" src="" alt="Enlarged View">
+  </div>
+
+  <script>
+    let timerInterval;
+    async function predict() {
+      document.getElementById('loader').style.display = 'flex';
+      document.getElementById('timer').innerText = 'Processing: 0s';
+      let seconds = 0;
+      timerInterval = setInterval(() => {
+        seconds++;
+        document.getElementById('timer').innerText = `Processing: ${seconds}s`;
+      }, 1000);
+
+      document.getElementById('results').style.display = 'none';
+      document.getElementById('error').style.display = 'none';
+      document.getElementById('error').innerHTML = '';
+      document.getElementById('performance_metrics').style.display = 'none';
+      document.getElementById('forecast_section').style.display = 'none';
+      document.getElementById('plots').style.display = 'none';
+      const watermark = document.querySelector('.watermark');
+      if (watermark) watermark.style.display = 'none';
+
+      const ticker = document.getElementById('ticker').value.toUpperCase();
+      try {
+        const response = await fetch('/predict', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: `ticker=${encodeURIComponent(ticker)}`
+        });
+        const data = await response.json();
+        clearInterval(timerInterval);
+        document.getElementById('loader').style.display = 'none';
+
+        if (data.error) {
+          document.getElementById('results').style.display = 'block';
+          document.getElementById('error').innerHTML = data.error;
+          document.getElementById('error').style.display = 'block';
+          return;
+        }
+
+        document.getElementById('results').style.display = 'block';
+
+if (data.performance_metrics) {
+    const metrics = data.performance_metrics;
+
+    document.getElementById('metrics_content').innerHTML = `
+      <div style="display: flex; gap: 40px;   justify-content: flex-start; flex-wrap: wrap;">
+        <!-- Accuracy Score Circle -->
+        <div class="circle-container">
+          <svg width="120" height="120">
+            <circle class="circle-bg" cx="60" cy="60" r="50"></circle>
+            <circle class="circle-progress accuracy-circle" cx="60" cy="60" r="50"></circle>
+          </svg>
+          <div class="score" id="scoreText">${metrics.r2}</div>
+          <p style="text-align:center; margin-top:8px;">Accuracy</p>
+        </div>
+
+        <!-- RMSE Circle -->
+        <div class="circle-container">
+          <svg width="120" height="120">
+            <circle class="circle-bg" cx="60" cy="60" r="50"></circle>
+            <circle class="circle-progress rmse-circle" cx="60" cy="60" r="50"></circle>
+          </svg>
+          <div class="score" id="rmseText">${metrics.rmse}</div>
+          <p style="text-align:center; margin-top:8px;">RMSE</p>
+        </div>
+      </div>
+    `;
+
+    // Animate circles
+    const accuracyCircle = document.querySelector('.accuracy-circle');
+    const rmseCircle = document.querySelector('.rmse-circle');
+    const radius = 50;
+    const circumference = 2 * Math.PI * radius;
+
+    [accuracyCircle, rmseCircle].forEach(circle => {
+        circle.style.strokeDasharray = circumference;
+        circle.style.strokeDashoffset = circumference;
+        circle.style.transition = 'stroke-dashoffset 1.5s ease-out';
+    });
+
+    // Animate Accuracy Circle
+    setTimeout(() => {
+        const offset = circumference * (1 - metrics.r2 / 100);
+        accuracyCircle.style.strokeDashoffset = offset;
+    }, 50);
+
+    // Animate RMSE Circle (we'll normalize it visually; e.g., max RMSE = 100)
+    setTimeout(() => {
+        const maxRMSE = 100; // adjust based on your expected RMSE range
+        const offsetRMSE = circumference * (1 - Math.min(metrics.rmse, maxRMSE) / maxRMSE);
+        rmseCircle.style.strokeDashoffset = offsetRMSE;
+    }, 50);
+
+    document.getElementById('performance_metrics').style.display = 'block';
+}
+
+
+        if (data.forecast_table) {
+          document.getElementById('forecast_content').innerHTML = data.forecast_table.map(item => `
+            <p>Date: ${item.date} | Predicted Price: ${item.price}</p>
+          `).join('');
+          document.getElementById('forecast_section').style.display = 'block';
+        }
+        if (data.plot_images || data.test_plot || data.forecast_plot) {
+          if (data.plot_images) {
+            document.getElementById('feature_plots').innerHTML = data.plot_images.map(img => `
+              <img src="data:image/png;base64,${img}" class="plot-img" alt="Feature Plot" onclick="openImage(this.src)">
+            `).join('');
+          }
+          if (data.test_plot) {
+            document.getElementById('test_plot').innerHTML = `
+              <img src="data:image/png;base64,${data.test_plot}" class="plot-img" alt="Test Predictions Plot" onclick="openImage(this.src)">
+            `;
+          }
+          if (data.forecast_plot) {
+            document.getElementById('forecast_plot').innerHTML = `
+              <img src="data:image/png;base64,${data.forecast_plot}" class="plot-img" alt="Forecast Plot" onclick="openImage(this.src)">
+            `;
+          }
+          document.getElementById('plots').style.display = 'block';
+        }
+      } catch (error) {
+        clearInterval(timerInterval);
+        document.getElementById('loader').style.display = 'none';
+        document.getElementById('results').style.display = 'block';
+        document.getElementById('error').innerHTML = `Error: ${error.message}`;
+        document.getElementById('error').style.display = 'block';
+      }
+    }
+
+    function openImage(src) {
+      document.getElementById('modalImage').src = src;
+      document.getElementById('imageModal').style.display = 'flex';
+    }
+    document.getElementById('closeBtn').onclick = function() {
+      document.getElementById('imageModal').style.display = 'none';
+    };
+  </script>
+
+<script>
+const canvas = document.getElementById('bgCanvas');
+const ctx = canvas.getContext('2d');
+let particles = [];
+let bandWidth = 0;
+
+function resizeCanvas() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+  bandWidth = canvas.width * 0.2;
+}
+window.addEventListener('resize', resizeCanvas);
+resizeCanvas();
+
+class Particle {
+  constructor(x, y, radius, color, speedX, speedY) {
+    this.x = x;
+    this.y = y;
+    this.radius = radius;
+    this.color = color;
+    this.speedX = speedX;
+    this.speedY = speedY;
+  }
+  draw() {
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+    ctx.fillStyle = this.color;
+    ctx.fill();
+  }
+  update() {
+    this.x += this.speedX;
+    this.y += this.speedY;
+
+    if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
+
+    const leftLimit = bandWidth;
+    const rightLimit = canvas.width - bandWidth;
+
+    if (this.x < 0 || (this.x < leftLimit && this.x > 0) || 
+        (this.x > rightLimit && this.x < canvas.width) || this.x > canvas.width) {
+      this.speedX *= -1;
+    }
+  }
+}
+
+function initParticles() {
+  particles = [];
+  const particleCount = 350; // more particles for better spread
+  for (let i = 0; i < particleCount; i++) {
+    const side = Math.random() < 0.5 ? 'left' : 'right';
+    const x = side === 'left' 
+      ? Math.random() * bandWidth * 1.2   // extend spread a bit
+      : canvas.width - Math.random() * bandWidth * 1.2;
+
+    const y = Math.random() * canvas.height; // full vertical spread
+    const radius = Math.random() * 2 + 0.5;
+    const speedX = (Math.random() - 0.5) * 0.5;
+    const speedY = (Math.random() - 0.5) * 0.5;
+    const color = `rgba(177,156,217,${Math.random() * 0.6 + 0.2})`;
+
+    particles.push(new Particle(x, y, radius, color, speedX, speedY));
+  }
+}
+
+initParticles();
+
+function animate() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  particles.forEach(p => {
+    p.update();
+    p.draw();
+  });
+  requestAnimationFrame(animate);
+}
+
+animate();
+</script>
+
+</body>
+</html>

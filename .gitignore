@@ -1,0 +1,10 @@
+__pycache__/
+*.py[cod]
+*.pkl
+models/
+venv/
+*.log
+.vscode/
+.idea/
+
+Recording 2025-08-26 012036.mp4
