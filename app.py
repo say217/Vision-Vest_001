@@ -6,7 +6,7 @@ import torch.optim as optim
 from torch.utils.data import Dataset, DataLoader
 from datetime import datetime, timedelta
 import matplotlib.pyplot as plt
-from sklearn.preprocessing import MinMaxScaler
+from sklearn.preprocessing import MinMaxScaler   
 from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score
 import warnings
 import os
