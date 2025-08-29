@@ -582,5 +582,3 @@ def predict():
         'forecast_plot': forecast_plot
     })
 
-if __name__ == '__main__':
-    app.run(debug=False)
