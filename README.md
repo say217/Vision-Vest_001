@@ -1,19 +1,26 @@
 ﻿# Vision-Vest
  
-<div align="center">
+<div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; max-width: 500px; margin: auto;">
+  <!-- Box 1 -->
+  <div style="border: 2px solid #ccc; padding: 4px; border-radius: 6px; max-height: 180px;">
+    <img src="https://github.com/user-attachments/assets/75674691-01ce-4a5a-b96d-24fea2e7497c" style="width:100%; height:160px; object-fit: cover; border-radius: 4px;" />
+  </div>
 
-<!-- Row 1 -->
-<img src="https://github.com/user-attachments/assets/75674691-01ce-4a5a-b96d-24fea2e7497c" width="34%" />
-<img src="https://github.com/user-attachments/assets/7a754af8-aa44-4588-86ac-67a71fd99464" width="34%" />
+  <!-- Box 2 -->
+  <div style="border: 2px solid #ccc; padding: 4px; border-radius: 6px; max-height: 180px;">
+    <img src="https://github.com/user-attachments/assets/7a754af8-aa44-4588-86ac-67a71fd99464" style="width:100%; height:160px; object-fit: cover; border-radius: 4px;" />
+  </div>
 
-<br>
+  <!-- Box 3 -->
+  <div style="border: 2px solid #ccc; padding: 4px; border-radius: 6px; max-height: 180px;">
+    <img src="https://github.com/user-attachments/assets/0450d5a5-11d6-4032-bc0d-4a934a6f20be" style="width:100%; height:160px; object-fit: cover; border-radius: 4px;" />
+  </div>
 
-<!-- Row 2 -->
-<img src="https://github.com/user-attachments/assets/0450d5a5-11d6-4032-bc0d-4a934a6f20be" width="34%" />
-<img src="https://github.com/user-attachments/assets/730bc9bd-a1d6-4d31-adf9-7b21d3521ff6" width="34%" />
-
+  <!-- Box 4 -->
+  <div style="border: 2px solid #ccc; padding: 4px; border-radius: 6px; max-height: 180px;">
+    <img src="https://github.com/user-attachments/assets/730bc9bd-a1d6-4d31-adf9-7b21d3521ff6" style="width:100%; height:160px; object-fit: cover; border-radius: 4px;" />
+  </div>
 </div>
-
 
 The enhanced stock predictor is a sophisticated deep learning system designed for forecasting stock prices. It leverages a hybrid model combining Conv1D layers, bidirectional Gated Recurrent Units (BiGRU), and a scaled dot-product attention mechanism. This document provides a comprehensive, paragraph-based explanation of the workflow, emphasizing feature engineering, technical indicators, data processing, and the EnhancedGRU model’s architecture and functionality. The goal is to give a clear understanding of the system’s components, their roles, and how they contribute to robust stock price predictions, without relying on mathematical equations.
 
@@ -120,4 +127,5 @@ graph TD
     style AF fill:#353b48,stroke:#ffd700,stroke-width:2px,color:#ffffff
     style AG fill:#353b48,stroke:#ffd700,stroke-width:2px,color:#ffffff
 ```
+
 
