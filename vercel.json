@@ -1,0 +1,14 @@
+{
+  "version": 2,
+  "functions": {
+    "app.py": {
+      "runtime": "python3.9"
+    }
+  },
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "app.py"
+    }
+  ]
+}
