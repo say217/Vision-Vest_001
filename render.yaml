@@ -15,7 +15,3 @@ services:
         value: true
     autoDeploy: true
     healthCheckPath: /
-    disk:
-      name: models
-      mountPath: /app/models
-      sizeGB: 1
