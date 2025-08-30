@@ -1,4 +1,4 @@
-services:services:
+services:
   - type: web
     name: stock-forecasting-app
     env: python
