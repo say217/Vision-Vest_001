@@ -1,0 +1,21 @@
+services:
+  - type: web
+    name: stock-forecasting-app
+    env: python
+    plan: free
+    region: oregon
+    buildCommand: |
+      pip install --upgrade pip
+      pip install -r requirements.txt
+    startCommand: gunicorn app:app
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.10
+      - key: PYTHONUNBUFFERED
+        value: true
+    autoDeploy: true
+    healthCheckPath: /
+    disk:
+      name: models
+      mountPath: /app/models
+      sizeGB: 1
