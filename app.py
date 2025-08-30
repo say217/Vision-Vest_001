@@ -581,4 +581,6 @@ def predict():
         'test_plot': test_plot,
         'forecast_plot': forecast_plot
     })
-
+    
+    if __name__ == '__main__':
+    app.run(debug=False, host='0.0.0.0', port=int(os.environ.get('PORT', 5000)))
