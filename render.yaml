@@ -1,21 +1,20 @@
-services:
+services:services:
   - type: web
     name: stock-forecasting-app
     env: python
-    plan: starter  # Changed to starter plan
-    region: oregon
+    plan: free  # Free tier, no persistent disks
+    region: oregon  # Change to 'frankfurt' or 'singapore' if closer
     buildCommand: |
       pip install --upgrade pip
+      pip install torch==2.3.0+cpu --index-url https://download.pytorch.org/whl/cpu
       pip install -r requirements.txt
-    startCommand: gunicorn app:app
+    startCommand: gunicorn app:app --timeout 300  # 5min timeout for training
     envVars:
       - key: PYTHON_VERSION
-        value: 3.10
+        value: 3.10  # Compatible with dependencies
       - key: PYTHONUNBUFFERED
-        value: true
-    autoDeploy: true
+        value: true  # Real-time logs
+      - key: FLASK_ENV
+        value: production  # Disable debug
+    autoDeploy: true  # Auto-deploy on git push
     healthCheckPath: /
-    disk:
-      name: models
-      mountPath: /app/models
-      sizeGB: 1
