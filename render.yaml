@@ -2,7 +2,7 @@ services:
   - type: web
     name: stock-forecasting-app
     env: python
-    plan: free
+    plan: starter  # Changed to starter plan
     region: oregon
     buildCommand: |
       pip install --upgrade pip
@@ -15,3 +15,7 @@ services:
         value: true
     autoDeploy: true
     healthCheckPath: /
+    disk:
+      name: models
+      mountPath: /app/models
+      sizeGB: 1
